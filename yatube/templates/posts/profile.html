@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+Профайл пользователя {{ author.username }}
+{% endblock %}
+{% block content %}
+      <div class="container py-5">        
+        <h1>Все посты пользователя {{ author.username }}</h1>
+        <h3>Всего постов: {{ postsnum }} </h3>
+        {% if not sameuser %}  
+        {% if following %}
+        <a
+          class="btn btn-lg btn-light"
+          href="{% url 'posts:profile_unfollow' author.username %}" role="button"
+        >
+          Отписаться
+        </a>
+      {% else %}
+          <a style="background-color: rgb(189, 0, 0); border-color: rgb(189, 0, 0);"
+            class="btn btn-lg btn-primary"
+            href="{% url 'posts:profile_follow' author.username %}" role="button"
+          >
+            Подписаться
+          </a>
+        {% endif %}   
+        {% endif %}  
+        {% for post in page_obj %}
+        <article>
+          {% include 'includes/postcard.html' %}
+        </article>
+        <hr>
+        <!-- Остальные посты. после последнего нет черты -->
+        <!-- Здесь подключён паджинатор -->  
+        {% endfor %}
+      </div>
+      {% include 'includes/paginator.html' %}
+    {% endblock %}

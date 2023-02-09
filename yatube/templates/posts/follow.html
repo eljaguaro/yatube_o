@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% block title %}
+Обновления избранных авторов
+{% endblock %}
+{% block content %}
+      <div class="container py-5">
+        {% include 'includes/switcher.html' %}     
+        <h1>{{ text }}</h1>
+        {% for post in page_obj %}
+          <article>
+            {% include 'includes/postcard.html' %}
+          </article>
+            {% if not forloop.last %}<hr>{% endif %}
+        {% endfor %}
+        {% include 'includes/paginator.html' %}
+      </div>  
+{% endblock %}

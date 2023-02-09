@@ -1,0 +1,22 @@
+{% load thumbnail %}
+<article class="col-12 col-md-9">
+  {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+    <img style="margin: 0;" class="card-img my-2" src="{{ im.url }}" width="960" height="339" alt="">
+  {% endthumbnail %}
+  <div style="background-color: whitesmoke; box-shadow: 0 0 10px rgba(0,0,0,0.5);padding:10px;">
+    <p>
+      {{ post.text }}
+    </p>
+     <!-- эта кнопка видна только автору -->
+     <a style="background-color: rgb(66, 65, 65);padding: 7px;border-radius:10px; text-decoration: none; color: tan ; margin-right: 7px;" href="{% url 'posts:profile' post.author.username %}">
+      Автор: {{ post.author }}
+     </a>
+     <a style="background-color: rgb(99, 30, 30);padding: 7px;border-radius:10px; text-decoration: none; color: rgb(255, 255, 255) ; margin-right: 7px;"  href="{% url 'posts:post_detail' post.pk %}">подробная информация </a>  
+     {% if post.group %}  
+    <a style="background-color: tan;padding: 7px;border-radius:10px; text-decoration: none; color: tan ; color: black;" href="{% url 'posts:group_list' post.group.slug %}">все записи группы {{ post.group }}</a>
+     {% endif %}  
+     <a style="color: rgb(158, 95, 39);">
+      Дата публикации: {{ post.pub_date | date:"d E Y" }}
+     </a>
+    </div>
+</article>

@@ -1,0 +1,45 @@
+{% load static %}
+{% with request.resolver_match.view_name as view_name %} 
+
+<!-- Использованы классы бустрапа для создания типовой навигации с логотипом -->
+      <!-- В дальнейшем тут будет создано полноценное меню -->
+      <nav class="navbar navbar-light" style="background-color: rgb(0, 0, 0);";>
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'posts:index' %}">
+            <img src="{% static 'img/pero.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            <!-- тег span используется для добавления нужных стилей отдельным участкам текста -->
+            <span style="color:rgb(167, 122, 0); font-family: Brush Script MT, Brush Script Std, cursive;">F E A</span>
+            <span style="color: rgb(255, 255, 255); font-family: Brush Script MT, Brush Script Std, cursive">T H E R</span>
+          </a>
+      <ul class="nav nav-pills">
+        <li class="nav-item"> 
+          <a class="nav-link link {% if view_name  == 'about:author' %}active{% endif %}" href="{% url 'about:author' %}", style="color: rgb(255, 194, 28); font-style: italic;">Об авторе</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}" href="{% url 'about:tech' %}", style="color: rgb(255, 194, 28); font-style: italic;">Технологии</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item"> 
+          <a class="nav-link {% if view_name  == '' %}active{% endif %}"href="{% url 'posts:post_create' %}" style="background-color: rgb(118, 87, 0); color: rgb(255, 255, 255); font-style: italic;">Новая запись</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:password_change_form' %}active{% endif %}" href="{% url 'password_change_form' %}", style="color: rgb(255, 194, 28); font-style: italic;">Изменить пароль</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}", style="color: rgb(255, 194, 28); font-style: italic;">Выйти</a>
+        </li>
+        <li style="color: rgb(248, 248, 248)">
+          Пользователь: {{ user.username }}
+        </li>
+        {% else %}
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}" href="{% url 'users:login' %}">Войти</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}" href="{% url 'users:signup' %}">Регистрация</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  {% endwith %} 

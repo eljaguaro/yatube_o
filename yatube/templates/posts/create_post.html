@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}
+{% if is_edit %}
+Редактирование поста
+{% else %}
+Новый пост
+{% endif %}
+{% endblock %}
+{% block content %} 
+    <main>
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8 p-5">
+            <div class="card">
+              <div class="card-header">       
+                {% if is_edit %}
+                Редактировать запись
+              {% else %}
+                Добавить запись
+              {% endif %}             
+              </div>
+              <div class="card-body">        
+                {% if is_edit %}
+                  <form method="post" action="{% url 'posts:post_edit' post.pk %}" enctype="multipart/form-data">
+                {% else %}
+                  <form method="post" action="{% url 'posts:post_create' %}" enctype="multipart/form-data">
+              {% endif %}     
+                  {% csrf_token %}       
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_text">
+                      {{ form.text.label }}                  
+                      <span class="required text-danger" >*</span>                  
+                    </label>
+                    <textarea name="text" cols="40" rows="10" class="form-control" required id="id_text">{% if is_edit %}{{ post.text }}{% endif %}</textarea>                
+                    <small id="id_text-help" class="form-text text-muted">
+                    {{ form.text.help_text }}    
+                    </small>                  
+                  </div>            
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_group">
+                      {{ form.group.label }}              
+                    </label> 
+                    <select name="group" class="form-control" id="id_group">
+                      <option value="" selected>---------</option>
+                      {% for gr in groups %}
+                        <option value={{ gr.pk }}>{{ gr }}</option>
+                      {% endfor %}
+                    </select>
+                    <small id="id_group-help" class="form-text text-muted">
+                      {{ form.group.help_text }}
+                    </small>
+                  </div>
+                  {% if is_edit %}
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_image">
+                      Картинка                      
+                    </label>
+                    На данный момент: <a href="">{{ post.image }}</a>
+                    <input type="checkbox" name="image-clear" id="image-clear_id">
+                    <label for="image-clear_id">Очистить</label><br>
+                    Изменить:
+                    <input type="file" name="image" accept="image/*" class="form-control" id="id_image">                      
+                  </div>
+                  {% else %}
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_image">
+                      Картинка                      
+                    </label>
+                    <input type="file" name="image" accept="image/*" class="form-control" id="id_image">                      
+                  </div>
+                  {% endif %}
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                    {% if is_edit %}
+                      Сохранить
+                    {% else %}
+                      Добавить
+                    {% endif %}      
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock %}
